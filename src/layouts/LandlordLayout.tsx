@@ -1,9 +1,17 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { LayoutDashboard, Building2, Users, FileText, Receipt, BarChart3, Bell, Settings } from "lucide-react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Building2, Users, FileText, Receipt, BarChart3, Bell, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LandlordLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const sidebarItems = [
     { icon: LayoutDashboard, label: "Tổng quan", path: "/landlord" },
@@ -12,6 +20,7 @@ export default function LandlordLayout() {
     { icon: FileText, label: "Hợp đồng", path: "/landlord/contracts" },
     { icon: Receipt, label: "Thu tiền", path: "/landlord/invoices" },
     { icon: BarChart3, label: "Báo cáo", path: "/landlord/reports" },
+    { icon: Bell, label: "Thông báo", path: "/landlord/notifications" },
   ];
 
   return (
@@ -52,7 +61,7 @@ export default function LandlordLayout() {
           </ul>
         </nav>
 
-        <div className="p-4 border-t">
+        <div className="p-4 border-t space-y-1">
           <Link
             to="/landlord/settings"
             className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
@@ -60,6 +69,13 @@ export default function LandlordLayout() {
             <Settings className="w-5 h-5 text-gray-400" />
             Cài đặt
           </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+            Đăng xuất
+          </button>
         </div>
       </aside>
 
@@ -78,16 +94,16 @@ export default function LandlordLayout() {
           <div className="flex-1" />
 
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-400 hover:text-gray-500 relative">
+            <Link to="/landlord/notifications" className="p-2 text-gray-400 hover:text-gray-500 relative">
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
               <Bell className="w-6 h-6" />
-            </button>
+            </Link>
             <div className="flex items-center gap-3 pl-4 border-l">
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-medium">
-                AD
+                {user?.name?.charAt(0).toUpperCase() || 'AD'}
               </div>
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-gray-700">Nguyễn Văn A</p>
+                <p className="text-sm font-medium text-gray-700">{user?.name || 'Chủ trọ'}</p>
                 <p className="text-xs text-gray-500">Chủ trọ</p>
               </div>
             </div>
