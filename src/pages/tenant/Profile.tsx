@@ -79,7 +79,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className="flex gap-3 mt-6 pt-6 border-t">
-                <Button variant="outline" className="flex-1"><FileText className="w-4 h-4 mr-2"/> Xem hợp đồng</Button>
+                <Button variant="outline" className="flex-1"><FileText className="w-4 h-4 mr-2"/> Xem phiếu thuê</Button>
                 <Button className="flex-1"><CreditCard className="w-4 h-4 mr-2"/> Thanh toán ngay</Button>
               </div>
             </CardContent>

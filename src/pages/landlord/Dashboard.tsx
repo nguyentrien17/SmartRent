@@ -57,7 +57,7 @@ export default function LandlordDashboard() {
 
   const recentActivities = [
     { id: 1, type: "payment", text: "Phòng 101 - Khu A đã thanh toán tiền nhà tháng 6", time: "2 giờ trước" },
-    { id: 2, type: "contract", text: "Hợp đồng phòng 205 - Khu B sắp hết hạn (còn 15 ngày)", time: "5 giờ trước" },
+    { id: 2, type: "contract", text: "Khách phòng 205 - Khu B sắp trả phòng (còn 15 ngày)", time: "5 giờ trước" },
     { id: 3, type: "maintenance", text: "Phòng 302 - Khu A báo hỏng máy lạnh", time: "1 ngày trước" },
     { id: 4, type: "new_tenant", text: "Người thuê mới nhận phòng 105 - Khu C", time: "2 ngày trước" },
   ];

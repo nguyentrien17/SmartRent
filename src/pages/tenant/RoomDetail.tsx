@@ -4,10 +4,35 @@ import { MapPin, Maximize, Star, Heart, Share2, Phone, MessageCircle, Calendar, 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { StarRating } from "@/components/StarRating";
 
 export default function RoomDetail() {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  
+  // Booking Modal State
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState("");
+  const [bookingNote, setBookingNote] = useState("");
+  const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate API call
+    setTimeout(() => {
+      setIsBookingSuccess(true);
+      setTimeout(() => {
+        setIsBookingModalOpen(false);
+        setIsBookingSuccess(false);
+        setBookingDate("");
+        setBookingTime("");
+        setBookingNote("");
+      }, 2000);
+    }, 500);
+  };
 
   const room = {
     id: id,
@@ -104,10 +129,8 @@ export default function RoomDetail() {
               </h1>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
-              <div className="flex items-center gap-1 text-amber-500 font-medium">
-                <Star className="w-5 h-5 fill-current" />
-                {room.rating} ({room.reviews} đánh giá)
-              </div>
+              <StarRating rating={room.rating} />
+              <span className="text-gray-500">({room.reviews} đánh giá)</span>
               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
               <div className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
@@ -176,8 +199,7 @@ export default function RoomDetail() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-gray-900">Đánh giá từ người thuê</h2>
               <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-amber-500 fill-current" />
-                <span className="font-bold text-gray-900">{room.rating}</span>
+                <StarRating rating={room.rating} />
                 <span className="text-gray-500">({room.reviews} đánh giá)</span>
               </div>
             </div>
@@ -188,8 +210,19 @@ export default function RoomDetail() {
               <p className="text-sm text-emerald-600 mb-4">Bạn đang thuê hoặc đã từng thuê phòng này. Hãy chia sẻ trải nghiệm của bạn nhé!</p>
               <div className="flex gap-2 mb-3">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <button key={star} className="text-gray-300 hover:text-amber-500 transition-colors">
-                    <Star className="w-6 h-6" />
+                  <button 
+                    key={star} 
+                    type="button"
+                    onClick={() => setUserRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className={`transition-colors ${
+                      star <= (hoverRating || userRating) 
+                        ? "text-amber-400" 
+                        : "text-gray-300 hover:text-amber-400"
+                    }`}
+                  >
+                    <Star className={`w-6 h-6 ${star <= (hoverRating || userRating) ? "fill-current" : ""}`} />
                   </button>
                 ))}
               </div>
@@ -211,11 +244,7 @@ export default function RoomDetail() {
                       <p className="text-xs text-gray-500">Đã thuê 6 tháng trước</p>
                     </div>
                   </div>
-                  <div className="flex text-amber-500">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
+                  <StarRating rating={5} showText={false} />
                 </div>
                 <p className="text-gray-600 text-sm">Phòng rất sạch sẽ, chủ nhà thân thiện. Khu vực an ninh tốt, gần chợ nên rất tiện. Tuy nhiên chỗ để xe hơi chật vào buổi tối.</p>
               </div>
@@ -257,7 +286,11 @@ export default function RoomDetail() {
               </div>
 
               <div className="space-y-3">
-                <Button className="w-full py-6 text-base" size="lg">
+                <Button 
+                  className="w-full py-6 text-base" 
+                  size="lg"
+                  onClick={() => setIsBookingModalOpen(true)}
+                >
                   <Calendar className="w-5 h-5 mr-2" />
                   Đặt lịch xem phòng
                 </Button>
@@ -298,11 +331,96 @@ export default function RoomDetail() {
             <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <div className="text-sm">
               <p className="font-semibold mb-1">Lưu ý an toàn</p>
-              <p>Tuyệt đối không chuyển tiền cọc trước khi xem phòng và ký hợp đồng trực tiếp.</p>
+              <p>Tuyệt đối không chuyển tiền cọc trước khi xem phòng và làm thủ tục thuê trực tiếp.</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      {isBookingModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-900">Đặt lịch xem phòng</h3>
+              <button 
+                onClick={() => setIsBookingModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {isBookingSuccess ? (
+                <div className="text-center py-8 space-y-4">
+                  <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900">Đặt lịch thành công!</h4>
+                  <p className="text-gray-600">Chủ phòng sẽ liên hệ với bạn sớm nhất để xác nhận lịch hẹn.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleBookingSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Ngày xem phòng <span className="text-red-500">*</span>
+                    </label>
+                    <input 
+                      type="date" 
+                      required
+                      value={bookingDate}
+                      onChange={(e) => setBookingDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5 border"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Thời gian dự kiến <span className="text-red-500">*</span>
+                    </label>
+                    <input 
+                      type="time" 
+                      required
+                      value={bookingTime}
+                      onChange={(e) => setBookingTime(e.target.value)}
+                      className="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5 border"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Lời nhắn cho chủ phòng (Tùy chọn)
+                    </label>
+                    <textarea 
+                      rows={3}
+                      value={bookingNote}
+                      onChange={(e) => setBookingNote(e.target.value)}
+                      placeholder="Ví dụ: Tôi muốn xem phòng vào buổi tối sau giờ làm..."
+                      className="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5 border resize-none"
+                    ></textarea>
+                  </div>
+                  
+                  <div className="pt-4 flex gap-3">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setIsBookingModalOpen(false)}
+                    >
+                      Hủy
+                    </Button>
+                    <Button type="submit" className="flex-1">
+                      Xác nhận đặt lịch
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

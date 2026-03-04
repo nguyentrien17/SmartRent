@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
+import { StarRating } from "@/components/StarRating";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -150,10 +151,7 @@ export default function Home() {
                 <CardContent className="p-4 flex-1 flex flex-col">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-lg font-bold text-emerald-600">{room.price}đ/tháng</span>
-                    <div className="flex items-center text-sm font-medium text-amber-500">
-                      <Star className="w-4 h-4 fill-current mr-1" />
-                      {room.rating}
-                    </div>
+                    <StarRating rating={room.rating} />
                   </div>
                   <h3 className="font-semibold text-gray-900 line-clamp-2 mb-3 group-hover:text-emerald-600 transition-colors">
                     {room.title}
@@ -177,65 +175,6 @@ export default function Home() {
           <Button variant="outline" className="w-full" asChild>
             <Link to="/search">Xem tất cả phòng</Link>
           </Button>
-        </div>
-      </section>
-
-      {/* Smart Features Banner */}
-      <section className="bg-emerald-50 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-emerald-100 flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1 space-y-6">
-              <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-                Tính năng thông minh
-              </Badge>
-              <h2 className="text-3xl font-bold text-gray-900">
-                Gợi ý phòng trọ bằng AI
-              </h2>
-              <p className="text-lg text-gray-600">
-                Hệ thống tự động học hỏi sở thích, vị trí và ngân sách của bạn để đề xuất những căn phòng phù hợp nhất. Không còn phải lướt tìm mỏi mắt.
-              </p>
-              <ul className="space-y-3">
-                {[
-                  "Phân tích hành vi tìm kiếm",
-                  "Gợi ý theo khoảng cách di chuyển",
-                  "Cảnh báo giá thuê bất thường",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-gray-700 font-medium">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                      ✓
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Button size="lg" className="mt-4">
-                Trải nghiệm ngay
-              </Button>
-            </div>
-            <div className="flex-1 w-full relative">
-              <div className="aspect-square max-w-md mx-auto relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-200 to-teal-100 rounded-full blur-3xl opacity-50"></div>
-                <img
-                  src="https://picsum.photos/seed/ai/600/600"
-                  alt="AI Suggestion"
-                  className="relative z-10 rounded-2xl shadow-2xl object-cover w-full h-full border-4 border-white"
-                  referrerPolicy="no-referrer"
-                />
-                {/* Floating elements */}
-                <div className="absolute -left-8 top-1/4 bg-white p-4 rounded-xl shadow-xl z-20 animate-bounce" style={{ animationDuration: '3s' }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                      <Star className="w-5 h-5 text-emerald-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500 font-medium">Độ phù hợp</p>
-                      <p className="text-sm font-bold text-gray-900">98% Match</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>

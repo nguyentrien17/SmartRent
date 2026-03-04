@@ -15,9 +15,9 @@ export default function LandlordLayout() {
 
   const sidebarItems = [
     { icon: LayoutDashboard, label: "Tổng quan", path: "/landlord" },
-    { icon: Building2, label: "Quản lý phòng", path: "/landlord/rooms" },
+    { icon: Building2, label: "Quản lý khu trọ", path: "/landlord/rooms" },
     { icon: Users, label: "Người thuê", path: "/landlord/tenants" },
-    { icon: FileText, label: "Hợp đồng", path: "/landlord/contracts" },
+    { icon: FileText, label: "Phiếu thuê", path: "/landlord/contracts" },
     { icon: Receipt, label: "Thu tiền", path: "/landlord/invoices" },
     { icon: BarChart3, label: "Báo cáo", path: "/landlord/reports" },
     { icon: Bell, label: "Thông báo", path: "/landlord/notifications" },

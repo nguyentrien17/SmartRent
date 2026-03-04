@@ -17,8 +17,8 @@ export default function Notifications() {
     {
       id: 2,
       type: "warning",
-      title: "Hợp đồng sắp hết hạn",
-      message: "Hợp đồng của Trần Thị B (P.205) sẽ hết hạn trong 15 ngày tới.",
+      title: "Khách sắp trả phòng",
+      message: "Khách thuê Trần Thị B (P.205) dự kiến trả phòng trong 15 ngày tới.",
       time: "2 giờ trước",
       read: false,
       icon: AlertTriangle,
