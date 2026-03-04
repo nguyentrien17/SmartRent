@@ -6,6 +6,10 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function Register() {
   const [name, setName] = useState('');
+  const [dob, setDob] = useState('');
+  const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState('male');
+  const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('tenant');
@@ -33,7 +37,7 @@ export default function Register() {
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       </div>
 
-      <div className="max-w-md w-full space-y-8 bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20 relative z-10">
+      <div className="max-w-2xl w-full space-y-8 bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-white/20 relative z-10">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900">Đăng ký tài khoản</h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -58,48 +62,110 @@ export default function Register() {
                 className="bg-white/50 focus:bg-white transition-colors"
               />
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Ngày sinh <span className="text-red-500">*</span>
+                </label>
+                <Input 
+                  type="date" 
+                  required 
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                  className="bg-white/50 focus:bg-white transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Giới tính <span className="text-red-500">*</span>
+                </label>
+                <select 
+                  className="w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 border h-10 bg-white/50 focus:bg-white transition-colors"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="male">Nam</option>
+                  <option value="female">Nữ</option>
+                  <option value="other">Khác</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Số điện thoại <span className="text-red-500">*</span>
+                </label>
+                <Input 
+                  type="tel" 
+                  required 
+                  placeholder="Nhập số điện thoại" 
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="bg-white/50 focus:bg-white transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Bạn là ai? <span className="text-red-500">*</span>
+                </label>
+                <select 
+                  className="w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 border h-10 bg-white/50 focus:bg-white transition-colors"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value="tenant">Người đi thuê trọ</option>
+                  <option value="landlord">Chủ nhà / Quản lý trọ</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email <span className="text-red-500">*</span>
+                Địa chỉ <span className="text-red-500">*</span>
               </label>
               <Input 
-                type="email" 
+                type="text" 
                 required 
-                placeholder="Nhập email của bạn" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Nhập địa chỉ hiện tại" 
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 className="bg-white/50 focus:bg-white transition-colors"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Mật khẩu <span className="text-red-500">*</span>
-              </label>
-              <Input 
-                type="password" 
-                required 
-                placeholder="Tạo mật khẩu" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="bg-white/50 focus:bg-white transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Bạn là ai? <span className="text-red-500">*</span>
-              </label>
-              <select 
-                className="w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 border h-10 bg-white/50 focus:bg-white transition-colors"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option value="tenant">Người đi thuê trọ</option>
-                <option value="landlord">Chủ nhà / Quản lý trọ</option>
-              </select>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <Input 
+                  type="email" 
+                  required 
+                  placeholder="Nhập email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-white/50 focus:bg-white transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Mật khẩu <span className="text-red-500">*</span>
+                </label>
+                <Input 
+                  type="password" 
+                  required 
+                  placeholder="Tạo mật khẩu" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-white/50 focus:bg-white transition-colors"
+                />
+              </div>
             </div>
           </div>
 
-          <div>
+          <div className="pt-2">
             <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white h-11 text-base rounded-xl shadow-md hover:shadow-lg transition-all">
               Đăng ký
             </Button>
